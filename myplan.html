@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Manogna — DevOps+AI Roadmap · Mar 21 → Apr 26</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,700;1,400&family=Familjen+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg:#04040a;
+    --s1:#0d0d16;
+    --s2:#12121e;
+    --border:#1a1a28;
+    --border2:#222235;
+    --text:#e2e2f0;
+    --muted:#52526a;
+    --dim:#2a2a40;
+    --g:#00e87a;
+    --o:#ff6b2b;
+    --b:#4488ff;
+    --y:#ffd166;
+    --p:#c084fc;
+    --r:#ff4466;
+    --c-beg:#00e87a;
+    --c-int:#ffd166;
+    --c-adv:#ff4466;
+    --c-bon:#c084fc;
+    --c-today:#00e87a;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'IBM Plex Mono',monospace;
+    min-height:100vh;
+    overflow-x:hidden;
+  }
+  body::before{
+    content:'';position:fixed;inset:0;
+    background-image:
+      linear-gradient(rgba(0,232,122,0.015) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(0,232,122,0.015) 1px,transparent 1px);
+    background-size:44px 44px;
+    pointer-events:none;z-index:0;
+  }
+  .wrap{max-width:1100px;margin:0 auto;padding:48px 20px;position:relative;z-index:1;}
+
+  /* HERO */
+  .hero{margin-bottom:56px;}
+  .eyebrow{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--g);margin-bottom:16px;display:flex;align-items:center;gap:10px;}
+  .eyebrow::before,.eyebrow::after{content:'';flex:0 0 32px;height:1px;background:var(--g);}
+  h1{
+    font-family:'Familjen Grotesk',sans-serif;
+    font-size:clamp(34px,7vw,72px);
+    font-weight:700;line-height:1;
+    letter-spacing:-1px;margin-bottom:20px;
+  }
+  h1 em{font-style:normal;color:var(--g);}
+  h1 .muted{color:var(--muted);}
+  .hero-sub{font-size:11px;color:var(--muted);line-height:1.9;max-width:580px;margin-bottom:32px;}
+
+  .kpi-row{display:flex;flex-wrap:wrap;gap:0;border:1px solid var(--border2);border-radius:8px;overflow:hidden;width:fit-content;}
+  .kpi{padding:14px 22px;border-right:1px solid var(--border2);display:flex;flex-direction:column;gap:3px;}
+  .kpi:last-child{border-right:none;}
+  .kpi-n{font-family:'Familjen Grotesk',sans-serif;font-size:26px;font-weight:700;color:var(--g);line-height:1;}
+  .kpi-l{font-size:9px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;}
+  .kpi-n.warn{color:var(--y);}
+  .kpi-n.hot{color:var(--o);}
+
+  /* NOTICE BOX */
+  .notice{
+    background:rgba(255,209,102,0.06);
+    border:1px solid rgba(255,209,102,0.3);
+    border-radius:8px;padding:16px 20px;
+    margin-bottom:48px;
+    font-size:11px;line-height:1.8;
+  }
+  .notice strong{color:var(--y);}
+
+  /* SECTION HEADERS */
+  .sec-h{
+    display:flex;align-items:center;gap:14px;
+    margin-bottom:20px;padding-bottom:12px;
+    border-bottom:1px solid var(--border);
+  }
+  .sec-phase{
+    font-size:9px;letter-spacing:3px;text-transform:uppercase;
+    padding:3px 10px;border-radius:100px;font-weight:700;
+  }
+  .sec-title{font-family:'Familjen Grotesk',sans-serif;font-size:19px;font-weight:600;}
+  .sec-range{font-size:10px;color:var(--muted);margin-left:auto;}
+
+  /* ── CALENDAR TABLE ── */
+  .cal-wrap{margin-bottom:56px;overflow-x:auto;}
+  table{width:100%;border-collapse:collapse;font-size:10px;}
+  thead tr th{
+    background:var(--s2);
+    padding:10px 8px;text-align:left;
+    font-size:9px;letter-spacing:2px;text-transform:uppercase;
+    color:var(--muted);border-bottom:1px solid var(--border2);
+    white-space:nowrap;
+  }
+  tbody tr{border-bottom:1px solid var(--border);}
+  tbody tr:hover td{background:var(--s1);}
+  td{padding:10px 8px;vertical-align:top;}
+  td.date-col{
+    font-size:11px;font-weight:700;
+    white-space:nowrap;min-width:90px;
+    color:var(--text);
+  }
+  td.day-col{
+    font-size:10px;color:var(--muted);
+    min-width:30px;
+  }
+  td.proj-col{font-size:11px;min-width:180px;}
+  td.proj-col .pnum{
+    display:inline-block;
+    font-size:9px;padding:1px 6px;
+    border-radius:3px;margin-right:6px;
+    font-weight:700;
+  }
+  td.tools-col{color:var(--muted);font-size:10px;min-width:200px;line-height:1.7;}
+  td.type-col{font-size:9px;letter-spacing:1px;min-width:80px;}
+  td.note-col{font-size:10px;color:var(--muted);min-width:160px;line-height:1.6;}
+
+  .tag-beg{background:rgba(0,232,122,0.12);color:var(--c-beg);}
+  .tag-int{background:rgba(255,209,102,0.12);color:var(--c-int);}
+  .tag-adv{background:rgba(255,68,102,0.12);color:var(--c-adv);}
+  .tag-bon{background:rgba(192,132,252,0.12);color:var(--c-bon);}
+
+  tr.row-beg td{border-left:2px solid var(--c-beg);}
+  tr.row-int td{border-left:2px solid var(--c-int);}
+  tr.row-adv td{border-left:2px solid var(--c-adv);}
+  tr.row-bon td{border-left:2px solid var(--c-bon);}
+  tr.row-today td{background:rgba(0,232,122,0.04) !important;}
+  tr.row-today td.date-col{color:var(--g);}
+  tr.row-special td{background:rgba(255,209,102,0.04) !important;border-left:2px solid var(--y) !important;}
+  tr.row-special td.date-col{color:var(--y);}
+  tr.row-join td{background:rgba(192,132,252,0.05) !important;border-left:2px solid var(--p) !important;}
+  tr.row-join td.date-col{color:var(--p);}
+
+  .type-build{color:var(--g);}
+  .type-post{color:var(--o);}
+  .type-both{color:var(--y);}
+  .type-sprint{color:var(--p);}
+  .type-join{color:var(--p);}
+
+  /* LINKEDIN SECTION */
+  .li-sec{margin-bottom:56px;}
+  .li-card{background:var(--s1);border:1px solid var(--border);border-radius:10px;margin-bottom:14px;overflow:hidden;}
+  .li-head{display:flex;align-items:center;gap:10px;padding:12px 18px;background:var(--s2);border-bottom:1px solid var(--border);}
+  .li-badge{font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:3px 10px;border-radius:100px;font-weight:700;}
+  .li-when{font-size:10px;color:var(--muted);}
+  .li-body{padding:18px;font-size:11px;line-height:1.9;color:var(--muted);white-space:pre-line;}
+  .li-body strong{color:var(--text);}
+
+  /* GITHUB TREE */
+  .tree{background:var(--s1);border:1px solid var(--border);border-radius:10px;padding:22px;font-size:11px;line-height:2.1;overflow-x:auto;}
+  .tf{color:var(--o);}
+  .fl{color:var(--text);}
+  .cm{color:var(--muted);font-size:9px;}
+
+  /* STRATEGY */
+  .strat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px;margin-bottom:56px;}
+  .strat-card{background:var(--s1);border:1px solid var(--border);border-radius:10px;padding:18px;}
+  .strat-icon{font-size:20px;margin-bottom:10px;}
+  .strat-t{font-family:'Familjen Grotesk',sans-serif;font-size:13px;font-weight:600;margin-bottom:6px;}
+  .strat-d{font-size:10px;color:var(--muted);line-height:1.7;}
+
+  .footer{text-align:center;padding:48px 0 24px;border-top:1px solid var(--border);}
+  .footer-code{font-size:10px;color:var(--muted);letter-spacing:3px;margin-bottom:10px;}
+  .footer-main{font-family:'Familjen Grotesk',sans-serif;font-size:clamp(22px,5vw,40px);font-weight:700;}
+  .footer-main em{font-style:normal;color:var(--g);}
+
+  @media(max-width:500px){.kpi{padding:10px 14px;}.kpi-n{font-size:20px;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="eyebrow">adjusted plan · starts today</div>
+    <h1>Mar 21 → <em>Apr 26.</em><br><span class="muted">26 Projects.</span> Real Dates.</h1>
+    <p class="hero-sub">
+      Exact calendar dates for every project, every commit, every LinkedIn post.<br>
+      Siemens joining: April 24 · Last build day: April 23 · Final recap post: April 26
+    </p>
+    <div class="kpi-row">
+      <div class="kpi"><span class="kpi-n">Mar 21</span><span class="kpi-l">Starts Today</span></div>
+      <div class="kpi"><span class="kpi-n warn">Apr 23</span><span class="kpi-l">Last Build Day</span></div>
+      <div class="kpi"><span class="kpi-n hot">Apr 24</span><span class="kpi-l">Siemens Joining</span></div>
+      <div class="kpi"><span class="kpi-n">26</span><span class="kpi-l">Projects</span></div>
+      <div class="kpi"><span class="kpi-n">34</span><span class="kpi-l">Build Days</span></div>
+    </div>
+  </div>
+
+  <!-- NOTICE -->
+  <div class="notice">
+    <strong>⚡ Adjusted Timeline Note:</strong> You have 34 active build days (Mar 21 – Apr 23). 
+    Since last plan had 37 days, the advanced + bonus projects are tightened to 1 day each — which is fine at your experience level. 
+    Beginner projects stay at 2 days, Intermediate at 2 days, Advanced at 1 day, Bonus split across final 2 days. 
+    <strong>April 24 = Siemens Day 1. April 26 = Post your big recap (2 days to settle in first).</strong>
+  </div>
+
+  <!-- FULL CALENDAR TABLE -->
+  <div class="cal-wrap">
+    <div class="sec-h">
+      <span class="sec-title">Full Calendar — Every Day, Every Project</span>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Day</th>
+          <th>Project</th>
+          <th>Tools (all FREE)</th>
+          <th>Type</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <!-- BEGINNER -->
+        <tr class="row-beg row-today">
+          <td class="date-col">Mar 21 Sat ⬅ TODAY</td>
+          <td class="day-col">D1</td>
+          <td class="proj-col"><span class="pnum tag-beg">#01</span>CI/CD Auto Rollback — setup</td>
+          <td class="tools-col">GitHub Actions · Docker · LocalStack · Bash</td>
+          <td class="type-col type-build">BUILD</td>
+          <td class="note-col">Create repo, pipeline skeleton, EC2-sim on LocalStack</td>
+        </tr>
+        <tr class="row-beg">
+          <td class="date-col">Mar 22 Sun</td>
+          <td class="day-col">D2</td>
+          <td class="proj-col"><span class="pnum tag-beg">#01</span>CI/CD Auto Rollback — finish</td>
+          <td class="tools-col">GitHub Actions · Docker · LocalStack</td>
+          <td class="type-col type-both">BUILD + POST</td>
+          <td class="note-col">Health check + rollback logic · README + arch diagram · LinkedIn post</td>
+        </tr>
+        <tr class="row-beg">
+          <td class="date-col">Mar 23 Mon</td>
+          <td class="day-col">D3</td>
+          <td class="proj-col"><span class="pnum tag-beg">#02</span>IaC + Monitoring — setup</td>
+          <td class="tools-col">Terraform · LocalStack · Prometheus · Grafana</td>
+          <td class="type-col type-build">BUILD</td>
+          <td class="note-col">Terraform modules, provision VPC/EC2 sim via LocalStack</td>
+        </tr>
+        <tr class="row-beg">
+          <td class="date-col">Mar 24 Tue</td>
+          <td class="day-col">D4</td>
+          <td class="proj-col"><span class="pnum tag-beg">#02</span>IaC + Monitoring — finish</td>
+          <td class="tools-col">Grafana · Prometheus · Terraform</td>
+          <td class="type-col type-both">BUILD + POST</td>
+          <td class="note-col">Wire Grafana dashboards · alerts on threshold breach · post</td>
+        </tr>
+        <tr class="row-beg">
+          <td class="date-col">Mar 25 Wed</td>
+          <td class="day-col">D5</td>
+          <td class="proj-col"><span class="pnum tag-beg">#03</span>Log Dashboard — setup</td>
+          <td class="tools-col">Elasticsearch · Logstash · Kibana (Docker Compose)</td>
+          <td class="type-col type-build">BUILD</td>
+          <td class="note-col">Spin up ELK stack, ship sample app logs via Logstash</td>
+        </tr>
+        <tr class="row-beg">
+          <td class="date-col">Mar 26 Thu</td>
+          <td class="day-col">D6</td>
+          <td class="proj-col"><span class="pnum tag-beg">#03</span>Log Dashboard — finish</td>
+          <td class="tools-col">Kibana · Elastalert</td>
+          <td class="type-col type-both">BUILD + POST</td>
+          <td class="note-col">Kibana viz + error-rate alerts · screenshot dashboard · post</td>
+        </tr>
+        <tr class="row-beg">
+          <td class="date-col">Mar 27 Fri</td>
+          <td class="day-col">D7</td>
+          <td class="proj-col"><span class="pnum tag-beg">#04</span>Docker Microservices — setup</td>
+          <td class="tools-col">Docker · Docker Compose · Python Flask</td>
+          <td class="type-col type-build">BUILD</td>
+          <td class="note-col">3-service Flask app: API + Auth + DB mock</td>
+        </tr>
+        <tr class="row-beg">
+          <td class="date-col">Mar 28 Sat</td>
+          <td class="day-col">D8</td>
+          <td class="proj-col"><span class="pnum tag-beg">#04</span>Docker Microservices — finish</td>
+          <td class="tools-col">Docker Compose · Docker networks</td>
+          <td class="type-col type-both">BUILD + POST</td>
+          <td class="note-col">Service discovery + networking + compose up demo · post</td>
+        </tr>
+        <tr class="row-beg">
+          <td class="date-col">Mar 29 Sun</td>
+          <td class="day-col">D9</td>
+          <td class="proj-col"><span class="pnum tag-beg">#05</span>K8s Auto Scaling — setup</td>
+          <td class="tools-col">Minikube · kubectl · HPA · metrics-server</td>
+          <td class="type-col type-build">BUILD</td>
+          <td class="note-col">Deploy app on Minikube, configure HPA with CPU target</td>
+        </tr>
+        <tr class="row-beg">
+          <td class="date-col">Mar 30 Mon</td>
+          <td class="day-col">D10</td>
+          <td class="proj-col"><span class="pnum tag-beg">#05</span>K8s Auto Scaling — finish</td>
+          <td class="tools-col">k6 · HPA · Minikube</td>
+          <td class="type-col type-both">BUILD + POST</td>
+          <td class="note-col">Stress test with k6 → scale-up triggered · record demo · post</td>
+        </tr>
+        <tr class="row-beg">
+          <td class="date-col">Mar 31 Tue</td>
+          <td class="day-col">D11</td>
+          <td class="proj-col"><span class="pnum tag-beg">#06</span>ChatOps — setup</td>
+          <td class="tools-col">Slack API · GitHub Actions · Webhooks</td>
+          <td class="type-col type-build">BUILD</td>
+          <td class="note-col">Slack app setup, slash command /deploy wires to GH Actions</td>
+        </tr>
+        <tr class="row-beg">
+          <td class="date-col">Apr 1 Wed</td>
+          <td class="day-col">D12</td>
+          <td class="proj-col"><span class="pnum tag-beg">#06</span>ChatOps — finish</td>
+          <td class="tools-col">Slack API · GitHub Actions</td>
+          <td class="type-col type-both">BUILD + POST</td>
+          <td class="note-col">Deploy triggered from Slack + status reply back to channel · post</td>
+        </tr>
+
+        <!-- INTERMEDIATE -->
+        <tr class="row-int">
+          <td class="date-col">Apr 2 Thu</td>
+          <td class="day-col">D13</td>
+          <td class="proj-col"><span class="pnum tag-int">#07</span>AI Log Anomaly — setup</td>
+          <td class="tools-col">Python · Scikit-learn · ELK · Ollama</td>
+          <td class="type-col type-build">BUILD</td>
+          <td class="note-col">Isolation Forest model trained on ELK log data</td>
+        </tr>
+        <tr class="row-int">
+          <td class="date-col">Apr 3 Fri</td>
+          <td class="day-col">D14</td>
+          <td class="proj-col"><span class="pnum tag-int">#07</span>AI Log Anomaly — finish</td>
+          <td class="tools-col">Slack API · Ollama · Python</td>
+          <td class="type-col type-both">BUILD + POST</td>
+          <td class="note-col">Slack alert on anomaly + Ollama explains why it's anomalous · post</td>
+        </tr>
+        <tr class="row-int">
+          <td class="date-col">Apr 4 Sat</td>
+          <td class="day-col">D15</td>
+          <td class="proj-col"><span class="pnum tag-int">#08</span>Self-Healing K8s — setup</td>
+          <td class="tools-col">Kubernetes · Prometheus · Alertmanager</td>
+          <td class="type-col type-build">BUILD</td>
+          <td class="note-col">PrometheusRule + Alertmanager webhook → auto pod restart</td>
+        </tr>
+        <tr class="row-int">
+          <td class="date-col">Apr 5 Sun</td>
+          <td class="day-col">D16</td>
+          <td class="proj-col"><span class="pnum tag-int">#08</span>Self-Healing K8s — finish</td>
+          <td class="tools-col">Kubernetes · custom controller</td>
+          <td class="type-col type-both">BUILD + POST</td>
+          <td class="note-col">Kill pod manually → watch it self-heal → record demo · post</td>
+        </tr>
+        <tr class="row-int">
+          <td class="date-col">Apr 6 Mon</td>
+          <td class="day-col">D17</td>
+          <td class="proj-col"><span class="pnum tag-int">#09</span>GitOps Drift — setup</td>
+          <td class="tools-col">ArgoCD · Terraform · GitHub</td>
+          <td class="type-col type-build">BUILD</td>
+          <td class="note-col">ArgoCD app pointing at GitHub repo, auto-sync enabled</td>
+        </tr>
+        <tr class="row-int">
+          <td class="date-col">Apr 7 Tue</td>
+          <td class="day-col">D18</td>
+          <td class="proj-col"><span class="pnum tag-int">#09</span>GitOps Drift — finish</td>
+          <td class="tools-col">ArgoCD · Terraform drift detection</td>
+          <td class="type-col type-both">BUILD + POST</td>
+          <td class="note-col">Manually drift K8s → ArgoCD detects + reconciles · post</td>
+        </tr>
+        <tr class="row-int">
+          <td class="date-col">Apr 8 Wed</td>
+          <td class="day-col">D19</td>
+          <td class="proj-col"><span class="pnum tag-int">#10</span>AI Incident Bot — setup</td>
+          <td class="tools-col">Ollama · Slack API · FastAPI · Python</td>
+          <td class="type-col type-build">BUILD</td>
+          <td class="note-col">Slack bot + FastAPI backend + Ollama (Llama3) integration</td>
+        </tr>
+        <tr class="row-int">
+          <td class="date-col">Apr 9 Thu</td>
+          <td class="day-col">D20</td>
+          <td class="proj-col"><span class="pnum tag-int">#10</span>AI Incident Bot — finish</td>
+          <td class="tools-col">Ollama · Slack API · ELK</td>
+          <td class="type-col type-both">BUILD + POST</td>
+          <td class="note-col">Bot reads alert → queries logs → Ollama suggests fix · post</td>
+        </tr>
+        <tr class="row-int">
+          <td class="date-col">Apr 10 Fri</td>
+          <td class="day-col">D21</td>
+          <td class="proj-col"><span class="pnum tag-int">#11</span>Multi-Cloud Deploy — setup</td>
+          <td class="tools-col">Terraform · LocalStack · Minikube · Docker</td>
+          <td class="type-col type-build">BUILD</td>
+          <td class="note-col">Terraform workspace per cloud, LocalStack as AWS sim</td>
+        </tr>
+        <tr class="row-int">
+          <td class="date-col">Apr 11 Sat</td>
+          <td class="day-col">D22</td>
+          <td class="proj-col"><span class="pnum tag-int">#11</span>Multi-Cloud Deploy — finish</td>
+          <td class="tools-col">Terraform · LocalStack</td>
+          <td class="type-col type-both">BUILD + POST</td>
+          <td class="note-col">Same app deployed on 2 providers from 1 pipeline · post</td>
+        </tr>
+        <tr class="row-int">
+          <td class="date-col">Apr 12 Sun</td>
+          <td class="day-col">D23</td>
+          <td class="proj-col"><span class="pnum tag-int">#12</span>Cost Optimizer — setup</td>
+          <td class="tools-col">Python · Boto3 · AWS Free Tier · Grafana</td>
+          <td class="type-col type-build">BUILD</td>
+          <td class="note-col">Scrape Cost Explorer API, flag underutilised resources</td>
+        </tr>
+        <tr class="row-int">
+          <td class="date-col">Apr 13 Mon</td>
+          <td class="day-col">D24</td>
+          <td class="proj-col"><span class="pnum tag-int">#12</span>Cost Optimizer — finish</td>
+          <td class="tools-col">Python · Grafana · Slack</td>
+          <td class="type-col type-both">BUILD + POST</td>
+          <td class="note-col">Grafana cost dashboard + Slack weekly report · post</td>
+        </tr>
+        <tr class="row-int">
+          <td class="date-col">Apr 14 Tue</td>
+          <td class="day-col">D25</td>
+          <td class="proj-col"><span class="pnum tag-int">#13</span>DevSecOps Pipeline — setup</td>
+          <td class="tools-col">SonarQube · Trivy · OWASP ZAP · GitHub Actions</td>
+          <td class="type-col type-build">BUILD</td>
+          <td class="note-col">SAST + container scan + DAST in pipeline, block on critical</td>
+        </tr>
+        <tr class="row-int">
+          <td class="date-col">Apr 15 Wed</td>
+          <td class="day-col">D26</td>
+          <td class="proj-col"><span class="pnum tag-int">#13</span>DevSecOps Pipeline — finish</td>
+          <td class="tools-col">SonarQube · Trivy · OWASP ZAP</td>
+          <td class="type-col type-both">BUILD + POST</td>
+          <td class="note-col">Show blocked PR on critical vuln + scan report · post</td>
+        </tr>
+
+        <!-- ADVANCED — 1 day each -->
+        <tr class="row-adv">
+          <td class="date-col">Apr 16 Thu</td>
+          <td class="day-col">D27</td>
+          <td class="proj-col"><span class="pnum tag-adv">#14</span>Agentic AI DevOps Assistant</td>
+          <td class="tools-col">LangChain · Ollama · Prometheus · Python</td>
+          <td class="type-col type-both">BUILD + POST</td>
+          <td class="note-col">Agent tools: log reader, pipeline trigger, metric query</td>
+        </tr>
+        <tr class="row-adv">
+          <td class="date-col">Apr 17 Fri</td>
+          <td class="day-col">D28</td>
+          <td class="proj-col"><span class="pnum tag-adv">#15</span>Self-Healing CI/CD Pipeline</td>
+          <td class="tools-col">GitHub Actions · Ollama · Python · Docker</td>
+          <td class="type-col type-both">BUILD + POST</td>
+          <td class="note-col">Fail pipeline → logs to Ollama → parse fix → re-run</td>
+        </tr>
+        <tr class="row-adv">
+          <td class="date-col">Apr 18 Sat</td>
+          <td class="day-col">D29</td>
+          <td class="proj-col"><span class="pnum tag-adv">#16</span>Generative AI Infra Generator</td>
+          <td class="tools-col">Ollama · Terraform · FastAPI · React</td>
+          <td class="type-col type-both">BUILD + POST</td>
+          <td class="note-col">Prompt → Terraform code output, validated + formatted</td>
+        </tr>
+        <tr class="row-adv">
+          <td class="date-col">Apr 18 Sat</td>
+          <td class="day-col">D29</td>
+          <td class="proj-col"><span class="pnum tag-adv">#17</span>AI Root Cause Analysis</td>
+          <td class="tools-col">OpenTelemetry · Prometheus · Grafana · Ollama</td>
+          <td class="type-col type-both">BUILD + POST</td>
+          <td class="note-col">Correlate logs+metrics+traces → Ollama RCA report on incident</td>
+        </tr>
+        <tr class="row-adv">
+          <td class="date-col">Apr 19 Sun</td>
+          <td class="day-col">D30</td>
+          <td class="proj-col"><span class="pnum tag-adv">#18</span>Autonomous Deployment Agent</td>
+          <td class="tools-col">Argo Rollouts · LangChain · Ollama · Prometheus</td>
+          <td class="type-col type-both">BUILD + POST</td>
+          <td class="note-col">Agent decides canary vs blue-green, rolls back on metric fail</td>
+        </tr>
+        <tr class="row-adv">
+          <td class="date-col">Apr 19 Sun</td>
+          <td class="day-col">D30</td>
+          <td class="proj-col"><span class="pnum tag-adv">#19</span>Self-Healing Infrastructure</td>
+          <td class="tools-col">Terraform · Prometheus · AWS Lambda FREE · Python</td>
+          <td class="type-col type-both">BUILD + POST</td>
+          <td class="note-col">Alert fires → Lambda recreates Terraform resource automatically</td>
+        </tr>
+        <tr class="row-adv">
+          <td class="date-col">Apr 20 Mon</td>
+          <td class="day-col">D31</td>
+          <td class="proj-col"><span class="pnum tag-adv">#20</span>AI DevSecOps Pipeline</td>
+          <td class="tools-col">Trivy · Ollama · GitHub Actions · Python</td>
+          <td class="type-col type-both">BUILD + POST</td>
+          <td class="note-col">Vuln scan → Ollama suggests fix → auto-patches Dockerfile</td>
+        </tr>
+        <tr class="row-adv">
+          <td class="date-col">Apr 20 Mon</td>
+          <td class="day-col">D31</td>
+          <td class="proj-col"><span class="pnum tag-adv">#21</span>Predictive Monitoring</td>
+          <td class="tools-col">Prophet · Prometheus · Grafana · Python</td>
+          <td class="type-col type-both">BUILD + POST</td>
+          <td class="note-col">Time-series ML predicts CPU/mem spike 30 min before breach</td>
+        </tr>
+        <tr class="row-adv">
+          <td class="date-col">Apr 21 Tue</td>
+          <td class="day-col">D32</td>
+          <td class="proj-col"><span class="pnum tag-adv">#22</span>ChatGPT DevOps Dashboard</td>
+          <td class="tools-col">React · Ollama · ELK · FastAPI</td>
+          <td class="type-col type-both">BUILD + POST</td>
+          <td class="note-col">"Why did deploy fail?" → Ollama answers from real ELK logs</td>
+        </tr>
+
+        <!-- BONUS -->
+        <tr class="row-bon">
+          <td class="date-col">Apr 21 Tue</td>
+          <td class="day-col">D32</td>
+          <td class="proj-col"><span class="pnum tag-bon">#23</span>DevOps Copilot CLI</td>
+          <td class="tools-col">Ollama · LangChain · Python CLI</td>
+          <td class="type-col type-both">BUILD + POST</td>
+          <td class="note-col">CLI tool: prompt → CI/CD YAML / Terraform / K8s YAML</td>
+        </tr>
+        <tr class="row-bon">
+          <td class="date-col">Apr 22 Wed</td>
+          <td class="day-col">D33</td>
+          <td class="proj-col"><span class="pnum tag-bon">#24</span>Chaos Engineering + AI</td>
+          <td class="tools-col">Chaos Mesh · Minikube · Ollama · Prometheus</td>
+          <td class="type-col type-both">BUILD + POST</td>
+          <td class="note-col">Inject pod failure → AI watches metrics → suggests recovery</td>
+        </tr>
+        <tr class="row-bon">
+          <td class="date-col">Apr 22 Wed</td>
+          <td class="day-col">D33</td>
+          <td class="proj-col"><span class="pnum tag-bon">#25</span>Deployment Risk Predictor</td>
+          <td class="tools-col">Python · Scikit-learn · GitHub API · Flask</td>
+          <td class="type-col type-both">BUILD + POST</td>
+          <td class="note-col">ML trained on CI/CD data → predicts failure % pre-deploy</td>
+        </tr>
+        <tr class="row-bon">
+          <td class="date-col">Apr 23 Thu</td>
+          <td class="day-col">D34</td>
+          <td class="proj-col"><span class="pnum tag-bon">#26</span>MLOps + DevOps Platform</td>
+          <td class="tools-col">MLflow · Docker · GitHub Actions · Grafana</td>
+          <td class="type-col type-both">BUILD + POST</td>
+          <td class="note-col">Train → track → containerize → deploy → monitor model drift</td>
+        </tr>
+
+        <!-- SPECIAL ROWS -->
+        <tr class="row-join">
+          <td class="date-col">Apr 24 Fri 🎉</td>
+          <td class="day-col">—</td>
+          <td class="proj-col" colspan="3" style="color:var(--p);font-size:12px;font-weight:700;">SIEMENS DAY 1 — Rest. You earned it.</td>
+          <td class="type-col type-join">JOINING</td>
+          <td class="note-col">No builds. Just show up and shine.</td>
+        </tr>
+        <tr class="row-special">
+          <td class="date-col">Apr 25 Sat</td>
+          <td class="day-col">—</td>
+          <td class="proj-col" colspan="3" style="color:var(--y);font-size:11px;">Polish GitHub README files, add demo GIFs to top 5 projects</td>
+          <td class="type-col" style="color:var(--y)">POLISH</td>
+          <td class="note-col">Update portfolio README with all 26 links</td>
+        </tr>
+        <tr class="row-special">
+          <td class="date-col">Apr 26 Sun 🏆</td>
+          <td class="day-col">—</td>
+          <td class="proj-col" colspan="3" style="color:var(--y);font-size:11px;font-weight:700;">POST THE MEGA LINKEDIN RECAP — "26 projects in 34 days"</td>
+          <td class="type-col" style="color:var(--o)">MEGA POST</td>
+          <td class="note-col">Your most important career post. All 26 projects listed.</td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+
+  <!-- LEGEND -->
+  <div style="display:flex;gap:20px;flex-wrap:wrap;margin-bottom:48px;padding:14px 18px;background:var(--s1);border:1px solid var(--border);border-radius:8px;">
+    <span style="font-size:10px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;align-self:center;">Legend:</span>
+    <span style="font-size:10px;display:flex;align-items:center;gap:6px;"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--c-beg)"></span>Beginner (Days 1–12)</span>
+    <span style="font-size:10px;display:flex;align-items:center;gap:6px;"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--c-int)"></span>Intermediate (Days 13–26)</span>
+    <span style="font-size:10px;display:flex;align-items:center;gap:6px;"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--c-adv)"></span>Advanced (Days 27–32)</span>
+    <span style="font-size:10px;display:flex;align-items:center;gap:6px;"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--c-bon)"></span>Bonus (Days 33–34)</span>
+    <span style="font-size:10px;display:flex;align-items:center;gap:6px;"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--y)"></span>Special</span>
+  </div>
+
+  <!-- LINKEDIN TEMPLATES -->
+  <div class="li-sec">
+    <div class="sec-h"><span class="sec-title">LinkedIn Post Templates</span></div>
+
+    <div class="li-card">
+      <div class="li-head">
+        <span class="li-badge" style="background:rgba(0,232,122,0.1);color:var(--g);border:1px solid var(--g)">Project Launch</span>
+        <span class="li-when">Use: First day of every project</span>
+      </div>
+      <div class="li-body"><strong>Day [X] of my 34-Day DevOps + AI Build Sprint 🚀</strong>
+
+Starting Project #[N]/26: [Project Title]
+
+The real-world problem:
+[One honest sentence — what production pain does this address?]
+
+Free stack I'm using:
+→ Ollama (local LLM) replacing OpenAI — ₹0
+→ [Tool 2] for [purpose]
+→ [Tool 3] for [purpose]
+
+What I'll have working by end of day:
+[Concrete demo output]
+
+All 26 projects → 🔗 github.com/manu07-oss/devops-ai-projects
+
+#DevOps #AI #LearningInPublic #Kubernetes #OpenToWork</div>
+    </div>
+
+    <div class="li-card">
+      <div class="li-head">
+        <span class="li-badge" style="background:rgba(255,209,102,0.1);color:var(--y);border:1px solid var(--y)">Project Shipped</span>
+        <span class="li-when">Use: Same day project completes</span>
+      </div>
+      <div class="li-body"><strong>Shipped #[N]/26: [Project Title] ✅</strong>
+
+What it does in one line:
+[Action verb] + [what it monitors/fixes/predicts] + [outcome]
+
+The honest surprise:
+[Most genuine thing you learned — this is what gets comments and saves]
+
+Proof it works:
+→ [Screenshot or metric, e.g. "Scaled from 2→8 pods in 45 sec"]
+→ Cost: ₹0 — powered by Ollama locally
+
+Architecture: [attach Excalidraw export]
+Code: 🔗 [GitHub link]
+
+Tomorrow: Project [N+1] — [Name]
+
+#DevOps #BuildInPublic #AI #CloudEngineering #[relevant tool]</div>
+    </div>
+
+    <div class="li-card">
+      <div class="li-head">
+        <span class="li-badge" style="background:rgba(192,132,252,0.1);color:var(--p);border:1px solid var(--p)">Apr 26 — Mega Recap</span>
+        <span class="li-when">Your most important career post</span>
+      </div>
+      <div class="li-body"><strong>34 days. 26 projects. Every single one shipped. ₹0 spent. 🎯</strong>
+
+I used my notice period to build instead of waiting.
+
+Here's the full list:
+✅ #01 – CI/CD Pipeline with Auto Rollback
+✅ #02 – IaC + Monitoring (Terraform + Grafana)
+✅ #03 – Log Monitoring Dashboard (ELK)
+✅ #04 – Dockerized Microservices (Docker Compose)
+✅ #05 – Kubernetes with HPA Auto Scaling
+✅ #06 – ChatOps (Slack + GitHub Actions)
+✅ #07 – AI Log Anomaly Detection (ML + ELK)
+✅ #08 – Self-Healing Kubernetes Cluster
+✅ #09 – GitOps Pipeline + Drift Detection (ArgoCD)
+✅ #10 – AI Incident Response Bot (Ollama + Slack)
+✅ #11 – Multi-Cloud Deployment (Terraform)
+✅ #12 – Auto Cost Optimization System
+✅ #13 – CI/CD with SAST/DAST Security Scanning
+✅ #14 – Agentic AI DevOps Assistant (LangChain)
+✅ #15 – Self-Healing CI/CD Pipeline
+✅ #16 – Generative AI Infra Generator
+✅ #17 – AI Root Cause Analysis System
+✅ #18 – Autonomous Deployment Agent (Argo Rollouts)
+✅ #19 – Self-Healing Infrastructure (Lambda + Terraform)
+✅ #20 – AI-Powered DevSecOps Pipeline
+✅ #21 – Predictive Monitoring (Prophet ML)
+✅ #22 – ChatGPT-like DevOps Dashboard
+✅ #23 – DevOps Copilot CLI
+✅ #24 – Chaos Engineering + AI
+✅ #25 – Deployment Risk Predictor (ML)
+✅ #26 – End-to-End MLOps + DevOps Platform
+
+All AI projects run locally using Ollama — zero API cost.
+Total infra cost: ~₹0
+
+What 34 days of building taught me:
+[Your most real, honest insight — not a cliché]
+
+I've just joined [Siemens] as [role] — and these projects are what got me here.
+
+Full portfolio: 🔗 github.com/manu07-oss/devops-ai-projects
+
+Open to connect with DevOps, Platform, SRE, and AI engineers. 📩
+
+#DevOps #AIEngineering #Kubernetes #SRE #LearningInPublic #Siemens</div>
+    </div>
+  </div>
+
+  <!-- GITHUB STRUCTURE -->
+  <div style="margin-bottom:56px;">
+    <div class="sec-h"><span class="sec-title">GitHub Repo Structure</span><span class="sec-range">// manu07-oss/devops-ai-projects</span></div>
+    <div class="tree">
+<span class="tf">devops-ai-projects/</span>
+├── <span class="fl">README.md</span>  <span class="cm">← master portfolio: all 26 projects linked + 1-liner each</span>
+├── <span class="tf">01-cicd-auto-rollback/</span>
+│   ├── <span class="fl">.github/workflows/deploy.yml</span>
+│   ├── <span class="fl">scripts/health-check.sh</span>
+│   ├── <span class="fl">Dockerfile</span>
+│   ├── <span class="tf">docs/architecture.png</span>  <span class="cm">← Excalidraw export, ALWAYS include</span>
+│   └── <span class="fl">README.md</span>  <span class="cm">← Problem · Stack · Demo GIF · How to run · Learnings</span>
+├── <span class="tf">02-iac-monitoring/ … 26-mlops-platform/</span>  <span class="cm">← same structure each</span>
+    </div>
+    <div style="margin-top:10px;padding:14px 18px;background:var(--s1);border:1px solid var(--border);border-radius:8px;font-size:11px;color:var(--muted);line-height:1.9;">
+      <strong style="color:var(--g);font-size:9px;letter-spacing:2px;text-transform:uppercase;">Every README must have:</strong><br>
+      1. <strong style="color:var(--text)">Problem</strong> — real production pain · 
+      2. <strong style="color:var(--text)">Architecture diagram</strong> (PNG) · 
+      3. <strong style="color:var(--text)">Demo GIF</strong> (Loom → export) · 
+      4. <strong style="color:var(--text)">How to run locally</strong> · 
+      5. <strong style="color:var(--text)">Free tool used</strong> (Ollama, LocalStack etc.) · 
+      6. <strong style="color:var(--text)">What I learned</strong>
+    </div>
+  </div>
+
+  <!-- STRATEGY -->
+  <div class="sec-h" style="margin-bottom:20px;"><span class="sec-title">Execution Tips</span></div>
+  <div class="strat-grid">
+    <div class="strat-card">
+      <div class="strat-icon">🦙</div>
+      <div class="strat-t">Install Ollama Today</div>
+      <div class="strat-d">Day 1 task: install Ollama, pull llama3:8b + mistral:7b. Every AI project from #07 onwards uses this. Zero cost, offline, OpenAI-compatible API.</div>
+    </div>
+    <div class="strat-card">
+      <div class="strat-icon">⏰</div>
+      <div class="strat-t">9AM–1PM = Build Time</div>
+      <div class="strat-d">4 focused hours every morning. 7–7:30PM = write and post LinkedIn. Commit to GitHub before you sleep. Non-negotiable streak.</div>
+    </div>
+    <div class="strat-card">
+      <div class="strat-icon">📐</div>
+      <div class="strat-t">Excalidraw Before Code</div>
+      <div class="strat-d">10 min architecture sketch before writing code. This becomes your README diagram AND your LinkedIn post image. Do it every single project.</div>
+    </div>
+    <div class="strat-card">
+      <div class="strat-icon">⚡</div>
+      <div class="strat-t">Apr 16–23: Sprint Mode</div>
+      <div class="strat-d">Advanced projects are 1 day each. They build on tools you've already set up. Don't start from scratch — reuse Ollama, ELK, Prometheus setups from earlier projects.</div>
+    </div>
+    <div class="strat-card">
+      <div class="strat-icon">🎯</div>
+      <div class="strat-t">3 Crown Projects</div>
+      <div class="strat-d">#10 Incident Bot, #14 Agentic Assistant, #15 Self-Healing CI/CD — polish these extra. These are your interview stories. Record clean Loom demos.</div>
+    </div>
+    <div class="strat-card">
+      <div class="strat-icon">🔄</div>
+      <div class="strat-t">Reuse Your Stack</div>
+      <div class="strat-d">Set up ELK once (Day 5) and reuse for #07, #10, #22. Set up Minikube once and reuse for #05, #08, #09, #18, #24. Stack compounds.</div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-code">// mar 21 → apr 26 · 26 projects · ₹0 cost</div>
+    <div class="footer-main">Today is Day 1. <em>Start now.</em></div>
+  </div>
+
+</div>
+</body>
+</html>
