@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: salary-prediction-api
+  labels:
+    app: salary-prediction-api
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: salary-prediction-api
+  template:
+    metadata:
+      labels:
+        app: salary-prediction-api
+    spec:
+      containers:
+      - name: salary-prediction-api
+        image: manognavengala01/salary-prediction-api:latest
+        ports:
+        - containerPort: 8000
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 60
+          periodSeconds: 15
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 45
+          periodSeconds: 10

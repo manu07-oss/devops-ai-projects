@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: salary-prediction-service
+spec:
+  selector:
+    app: salary-prediction-api
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8000
+  type: LoadBalancer
