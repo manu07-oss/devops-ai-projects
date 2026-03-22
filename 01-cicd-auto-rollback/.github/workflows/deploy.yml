@@ -1,0 +1,30 @@
+name: CI/CD with Auto Rollback 
+
+on: 
+    push:
+        branches: [main]
+
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+        
+        steps:
+            - name: checkout code 
+              uses: actions/checkout@0v3
+
+            - name: build Docker image 
+              run:  docker build -t myapp:${{ github.sha }} .
+              
+            - name: save previous version tag 
+              run: echo "PREV_TAG=$(cat .latest_deployed || echo 'none')" >> $GITHUB_ENV
+              
+            - name: Deploy new version 
+              run: |
+               docker stop myapp || true
+               docker rm myapp || true
+               docker run -d --name myapp -p 80:80 myapp:${{ github.sha }}
+               echo ${{ github.sha }} > .latest_deployed
+
+            - name: wait for app to start 
+              run: sleep 5
+
