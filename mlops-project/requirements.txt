@@ -48,6 +48,8 @@ packaging==26.0
 pandas==2.3.3
 pillow==12.1.1
 prettytable==3.17.0
+prometheus-fastapi-instrumentator==7.1.0
+prometheus_client==0.24.1
 protobuf==6.33.6
 pyarrow==23.0.1
 pyasn1==0.6.3

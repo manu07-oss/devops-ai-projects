@@ -2,12 +2,15 @@ import pickle
 import pandas as pd
 from fastapi import FastAPI
 from pydantic import BaseModel
+from prometheus_fastapi_instrumentator import Instrumentator
 
 with open("models/best_model.pkl", "rb") as f:
     model = pickle.load(f)
 print("Model loaded successfully!")
 
 app = FastAPI(title="Salary Prediction API")
+
+Instrumentator().instrument(app).expose(app)
 
 class SalaryInput(BaseModel):
     years_experience: float
